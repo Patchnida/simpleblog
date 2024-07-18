@@ -19,7 +19,7 @@ const ProfileCard = () => {
   }
 
   return (
-    <div className="flex flex-col w-dvw p-5">
+    <div className="flex flex-col w-11/12 md:11/12 lg:w-11/12 drop-shadow	">
       <div className="flex flex-col bg-white p-5">
       <Link href="/editProfile" className="self-end text-sm md:text-base lg:text-base font-medium hover:font-semibold hover:text-blue-500">Edit</Link>
         <div class="h-fit my-2 flex flex-row self-center">
@@ -110,8 +110,6 @@ const ProfileCard = () => {
 
       </div>
       
-
-      <div> All Blog </div>
     </div>
 
   );
