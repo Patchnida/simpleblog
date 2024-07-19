@@ -5,21 +5,22 @@ import SearchCategory from "@/components/searchCategory/searchCategory";
 
 const SingleProfilePage = () => {
   return (
-    <div className="flex flex-col min-h-screen h-full mt-5">
-      <div className="flex justify-center items-center">
-        <ProfileCard />
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 w-11/12">
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
+    <div className="flex min-h-screen h-full">
+        <div className="flex flex-col m-5">
+          <div className="flex justify-center items-center">
+            <ProfileCard />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            <BlogCard/>
+            <BlogCard/>
+            <BlogCard/>
+            <BlogCard/>
+            <BlogCard/>
+            <BlogCard/>
+          </div>
         </div>
-      </div>
     </div>
+    
     // <div className="flex max-h-screen h-full">
     //   <div className="flex flex-col ">
     //     <div className="">

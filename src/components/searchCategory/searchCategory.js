@@ -37,7 +37,7 @@ const SearchCategory = () => {
         <div className="relative flex justify-end" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-zinc-950 text-white font-medium px-5 py-2 border rounded-3xl w-20 md:w-44 flex justify-center items-center"
+                className="bg-zinc-950 text-white font-medium px-5 py-2 border rounded-3xl w-20 md:w-44 flex justify-center items-center hover:shadow hover:bg-zinc-800"
             >
                 {selectedCategory ? categories.find((category) => category.value === selectedCategory).label :
                     (
