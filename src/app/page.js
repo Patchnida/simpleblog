@@ -1,6 +1,7 @@
 import BlogCard from "@/components/blogCard/blogCard";
 import SearchBlog from "@/components/searchBlog/searchBlog";
 import SearchCategory from "@/components/searchCategory/searchCategory";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -13,12 +14,25 @@ export default function Home() {
           <SearchCategory />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
+          <Link
+            href="/blog/post">
+            <BlogCard/>
+          </Link>
+          <Link
+            href="/blog/post">
+            <BlogCard/>
+          </Link>
+          <Link
+            href="/blog/post">
+            <BlogCard/>
+          </Link>
+          <Link
+            href="/blog/post">
+            <BlogCard/>
+          </Link>
+
+          
+          
         </div>
         </div>
     </div>

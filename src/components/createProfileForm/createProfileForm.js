@@ -2,30 +2,35 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CreateProfileForm = (e) => {
     const [image, setImage] = useState(null);
+    const router = useRouter();
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // [0] เป็นการเลือกไฟล์แรกจากรายการไฟล์ที่ถูกเลือก ซึ่งในกรณีนี้สมมุติว่าผู้ใช้เลือกเพียงไฟล์เดียว.
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImage(imageUrl);
         }
     }
 
-    
-
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("test submit")
+        router.push("/")
+    }
 
   return (
     <div className="w-full min-w-80 flex justify-center items-center bg-white shadow p-4">
-            <div className="flex flex-col w-full gap-6 py-4 md:gap-10 lg:gap-10 md:py-10" >
+            <form onSubmit={handleSubmit} className="flex flex-col w-full gap-6 py-4 md:gap-10 lg:gap-10 md:py-10" >
                 <h1 className="text-2xl md:text-5xl font-bold text-center">Create Profile</h1>
                 
                 <div className="flex flex-col lg:flex-row justify-center items-center gap-4 md:gap-8 lg:gap-10">
                    
-                <div className="relative flex justify-center items-center border rounded-full overflow-hidden w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72">
+                <div className="relative flex justify-center items-center border rounded-full overflow-hidden w-48 h-48 md:w-64 md:h-64 lg:w-64 lg:h-64">
                         <Image
                             src={image || "/noavatar.png"}
                             fill
@@ -97,9 +102,9 @@ const CreateProfileForm = (e) => {
                     </div>
                 </div>
 
-                <button className="bg-zinc-950 text-white text-sm md:text-xl lg:text-base font-medium py-2 w-full max-w-72 lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-800">CREATE PROFILE</button>
+                <button type="submit" className="bg-zinc-950 text-white text-sm md:text-xl lg:text-base font-medium py-2 w-full max-w-72 lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-800">CREATE PROFILE</button>
 
-            </div>
+            </form>
     </div>
   )
 }

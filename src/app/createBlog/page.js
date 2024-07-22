@@ -1,9 +1,9 @@
-import CreateBlog from "@/components/createBlog/createBlog";
+import CreateBlogForm from "@/components/createBlogForm/createBlogForm";
 
 const CreateBlogPage = () => {
   return (
-    <div className="flex flex-col ">
-        <CreateBlog />
+    <div className="w-full h-full justify-center">
+       <CreateBlogForm />
     </div>
   )
 }
