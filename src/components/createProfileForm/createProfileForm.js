@@ -20,7 +20,7 @@ const CreateProfileForm = (e) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log("test submit")
-        router.push("/")
+        router.push("/profile/user")
     }
 
   return (
