@@ -1,13 +1,22 @@
+import Writer from "@/components/writer/writer";
 import Image from "next/image";
 import Link from "next/link";
 
-const SingleBlogPage = () => {
-  // Temporary Data
-  const Category = "Tech";
+// const getData = async (slug) => {
+//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`)
 
-  const text = `IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.
-  IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.
-  IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.`
+//   if(!res.ok) {
+//     throw new Error('Something went wrong')
+//   }
+
+//   return res.json()
+// }
+
+const SingleBlogPage = async ({params}) => {
+  
+  const {slug} = params;
+  // const post = await getData(slug)
+  
 
   return (
         <div>
@@ -36,29 +45,23 @@ const SingleBlogPage = () => {
               
               <div className="flex flex-col w-full h-full p-5 md:p-8">
                 <div className="">
-                      <h2 className="text-3xl md:text-4xl font-semibold mb-2 md:mb-4">Title</h2>
+                      {/* <h2 className="text-3xl md:text-4xl font-semibold mb-2 md:mb-4">{post.title}</h2> */}
+                      <h2 className="text-3xl md:text-4xl font-semibold mb-2 md:mb-4">Title test</h2>
                       <div className="flex items-center text-base md:text-xl mb-2 md:mb-4">
                         <p className="font-semibold mr-2">Category :</p>
-                        <p className="font-semibold" >{Category}</p>
+                        <p className="font-semibold" >test</p>
                       </div>
                       <div className="flex h-full">
+                        {/* <p className="text-sm sm:text-base mb-6 leading-relaxed">
+                          {post.body}
+                        </p> */}
                         <p className="text-sm sm:text-base mb-6 leading-relaxed">
-                          {text}
+                          test desc
                         </p>
                       </div>
                   </div>
                   
-                  <div className="flex items-center justify-end">
-                    <div className="relative w-8 h-8 border rounded-full overflow-hidden mr-3">
-                      <Image 
-                        src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w" 
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        alt="Writer's picture"
-                      />
-                    </div>
-                    <p className="text-sm md:text-base font-medium">Writer</p>
-                  </div>
+                  {/* <Writer userId={post.userId} /> */}
               </div>  
                 
               </div>

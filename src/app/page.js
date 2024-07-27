@@ -3,9 +3,21 @@ import SearchBlog from "@/components/searchBlog/searchBlog";
 import SearchCategory from "@/components/searchCategory/searchCategory";
 import Link from "next/link";
 
+// FETCH DATA WITH AN API
+const getData = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
 
-export default function Home() {
-  
+  if(!res.ok) {
+    throw new Error('Something went wrong')
+  }
+
+  return res.json()
+}
+
+const Home = async () => {
+
+  const posts = await getData()
+
   return (
     <div className="flex min-h-screen h-full">
       <div className="flex flex-col m-5">
@@ -14,24 +26,18 @@ export default function Home() {
           <SearchCategory />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-          <Link
-            href="/blog/post">
-            <BlogCard/>
-          </Link>
-          <Link
-            href="/blog/post">
-            <BlogCard/>
-          </Link>
-          <Link
-            href="/blog/post">
-            <BlogCard/>
-          </Link>
-          <Link
-            href="/blog/post">
-            <BlogCard/>
-          </Link>
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              href={`/blog/${post.id}`}
+              passHref
+            >
+              
+                <BlogCard post={post} />
+              
+            </Link>
+          ))}
 
-          
           
         </div>
         </div>
@@ -39,3 +45,4 @@ export default function Home() {
       
   );
 }
+export default Home;

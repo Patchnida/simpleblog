@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const BlogCard = () => {
+const BlogCard = ({post}) => {
   return (
     <div className="w-full">
       <div className="border rounded-lg shadow-md w-full">
@@ -13,8 +13,8 @@ const BlogCard = () => {
             />
         </div>
         <div className="m-4">
-          <h2 className="text-xl md:text-2xl font-bold mt-3">Title</h2>
-          <p className="text-base line-clamp-4 mt-1">It looks like you are trying to update your Next.js project to use the new next/image component from version 13, but running the codemods esolve the issue. Here are some steps to manually fix the problem </p>
+          <h2 className="text-xl md:text-2xl font-bold mt-3">{post.title}</h2>
+          <p className="text-base line-clamp-4 mt-1">{post.desc} </p>
         </div>
       </div>
     </div>
