@@ -1,37 +1,77 @@
-'use client'
+'use client';
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 const CreateBlogForm = () => {
+
+  const [title, setTitle] = useState("");
+
   const [image, setImage] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const [category, setCategory] = useState("");
+  const [desc, setDesc] = useState("");
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (image) {
+      const imageUrl = URL.createObjectURL(image);
+      setImagePreview(imageUrl);
+
+      // Revoke the URL on cleanup
+      return () => URL.revokeObjectURL(imageUrl);
+    }
+  }, [image]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      setImage(file);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("testSubmit");
-    router.push("/blog/post");
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // ป้องกันไม่ให้หน้าเว็บ Refresh เมื่อกด submit
+
+    if (!title || !category) {
+      alert("Title and category are required");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/api/blogs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, category, desc }),
+      });
+
+      if (res.ok) {
+        console.log("Post created successfully");
+        router.push("/")
+      } else {
+        console.log("Failed to create blog post");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="flex flex-col w-full h-fit">
         <div className="relative w-full h-48 sm:h-64 md:h-96 lg:h-72">
-          {image && (
+          {imagePreview && (
             <Image 
-              src={image} 
+              src={imagePreview} 
               alt="Menu"
-              layout="fill" 
+              layout="fill"
+              objectFit="cover"
               className="w-full h-full object-cover rounded-md" 
             />
           )}
@@ -54,16 +94,20 @@ const CreateBlogForm = () => {
             <div>
               <input
                 type="text"
+                name="title"
                 placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="px-4 py-2 text-xl md:text-3xl lg:font-light mb-2 md:mb-4 border-b focus:outline-none w-full placeholder:text-zinc-700"
               />
             </div>
 
             <div className="flex items-center text-base md:text-lg mb-2 md:mb-4">
               <select
+                name="category"
                 className="px-3.5 py-2 border-b focus:outline-none w-full h-12"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="" disabled>
                   Select a category
@@ -79,8 +123,10 @@ const CreateBlogForm = () => {
             <div className="flex h-full w-full text-base md:text-lg">
               <textarea
                 type="text"
+                name="desc"
                 placeholder="Description"
-                minLength={20}
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
                 className="px-4 py-2 font-regular border-b focus:outline-none w-full h-36 lg:h-48 placeholder-zinc-700"
               />
             </div>
@@ -90,8 +136,8 @@ const CreateBlogForm = () => {
             <div className="relative w-8 h-8 border rounded-full overflow-hidden mr-3">
               <Image 
                 src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w" 
-                fill
-                style={{ objectFit: 'cover' }}
+                layout="fill"
+                objectFit="cover"
                 alt="Writer's picture"
               />
             </div>

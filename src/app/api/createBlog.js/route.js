@@ -1,6 +1,6 @@
 
-import { Post } from "@/lib/models/post.model";
-import connectToDb from "@/lib/utils";
+import { Post } from "@/models/post.model";
+import connectToDb from "@/lib/mongoDB";
 
 import { NextResponse } from "next/server";
 

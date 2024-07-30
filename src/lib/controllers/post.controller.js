@@ -1,8 +1,8 @@
 
 
-import connectToDb from '../utils';
-import { Post } from '@/lib/models/post.model';
-import { User } from '@/lib/models/user.model';
+import connectToDb from '../mongoDB';
+import { Post } from '@/models/post.model';
+import { User } from '@/models/user.model';
 
 export const getPosts = async (req, res) => {
   try {

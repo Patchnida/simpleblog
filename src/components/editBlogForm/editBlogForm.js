@@ -4,21 +4,49 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PopupBox from "../popupBox/popupBox";
+import DeleteBtn from "../deleteBtn/deleteBtn";
 
-const EditBlogForm = () => {
+const EditBlogForm = ({params}) => {
   const [image, setImage] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+
+  const { slug } = params;
+  console.log(slug)
+  
+
+  const [postData, setPostData] = useState("")
+
   const router = useRouter()
 
-  const title = "title1";
-  const Category = "General";
+  const getPostById = async (slug) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/blogs/${slug}`,{
+        method: "GET",
+        cache: "no-store",
+      })
 
-  const text = `IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.
-  IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.
-  IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM. IT LOOKS LIKE YOU ARE TRYING TO UPDATE YOUR NEXT.JS PROJECT TO USE THE NEW NEXT/IMAGE COMPONENT FROM VERSION 13, BUT RUNNING THE CODEMODS RESOLVE THE ISSUE. HERE ARE SOME STEPS TO MANUALLY FIX THE PROBLEM.`
+      if(!res.ok) {
+        throw new Error("Failed to fetch a post")
+      }
 
+      const data = await res.json();
+        console.log("edit post", data)
+        setPostData(data.post)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (slug) {
+      getPostById(slug);
+    }
+  }, [slug]);
+
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (file) { // check ว่า file ที่รับมาเป็น null หรือ undefied หรือไม่
@@ -26,7 +54,6 @@ const EditBlogForm = () => {
       setImage(imageUrl)
     }
   }
-
   
   const handleOpenPopup = () => {
     console.log("test open popup");
@@ -43,11 +70,11 @@ const EditBlogForm = () => {
     setFormSubmitted(true);    
   }
 
-  useEffect(() => {
-    if (formSubmitted) {
-      router.push('/blog/post');
-    }
-  }, [formSubmitted, router]);
+  // useEffect(() => {
+  //   if (formSubmitted) {
+  //     router.push('/blog/post');
+  //   }
+  // }, [formSubmitted, router]);
   
 
   return (
@@ -126,12 +153,7 @@ const EditBlogForm = () => {
                 </div>
 
                 <div className="flex items-center justify-end">
-                  <button 
-                  type="button"
-                    className="text-sm md:text-base font-medium text-red-500 hover:underline cursor-pointer"
-                    onClick={handleOpenPopup}
-                  >Delete
-                  </button>
+                  <DeleteBtn />
                 </div>
               </div>
 
@@ -144,7 +166,7 @@ const EditBlogForm = () => {
               </form>
             {isPopupOpen && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                <PopupBox onClose={handleClosePopup}/>
+                <PopupBox onClose={handleClosePopup} id={post._id}/>
               </div>
             )
             

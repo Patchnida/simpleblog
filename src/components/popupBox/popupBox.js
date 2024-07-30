@@ -1,7 +1,20 @@
+'use client'
 import { useRouter } from "next/navigation";
 
-const PopupBox = ({ onClose }) => {
+const PopupBox = ({ onClose, id }) => {
 
+    const handleDelete = async () => {
+        const res = await fetch(`http://localhost:3000/api/blogs?id=${id}`, {
+            method: "DELETE",
+        })
+            
+        if(!res.ok) {
+           window.location.reload() // ให้ reload หน้าเว็บ
+        }
+
+        router.push("/")
+        
+    }
     const router = useRouter();
 
     const handleCancle = () => {
@@ -25,7 +38,7 @@ const PopupBox = ({ onClose }) => {
                     className="bg-white text-zinc-950 text-sm md:text-xl lg:text-xl font-medium py-2 w-full lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-100"
                 >Cancle</button>
                 <button
-                    onClick={handleSubmit}
+                    onClick={handleDelete}
                     className="bg-zinc-950 text-white text-sm md:text-xl lg:text-xl font-medium py-2 w-full lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-800"
                 >Confirm</button>
             </div>

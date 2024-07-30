@@ -1,22 +1,40 @@
+'use client'
+
 import BlogCard from "@/components/blogCard/blogCard";
 import SearchBlog from "@/components/searchBlog/searchBlog";
 import SearchCategory from "@/components/searchCategory/searchCategory";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-// FETCH DATA WITH AN API
-const getData = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+export default function Home() {
 
-  if(!res.ok) {
-    throw new Error('Something went wrong')
+  const [postData, setPostData] = useState([]);
+
+
+  const getPosts = async () => {
+    try {
+        const res = await fetch("http://localhost:3000/api/blogs", {
+          method: "GET",
+          cache: "no-store" // ไม่จำเป็นต้อง store ข้อมูล เพราะเราต้องการให้ข้อมูลรีใหม่ทุกครั้ง
+        })
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch posts")
+        }
+
+        const data = await res.json()
+        setPostData(data.posts) // รับเป็น "posts" เข้ามา
+        
+    } catch (error) {
+        console.log("Error loading posts", error);
+    }
   }
 
-  return res.json()
-}
+  useEffect(() => {
+    getPosts(); // เรียกใช้ getPosts
+  },[])
 
-const Home = async () => {
-
-  const posts = await getData()
+  
 
   return (
     <div className="flex min-h-screen h-full">
@@ -26,17 +44,21 @@ const Home = async () => {
           <SearchCategory />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/blog/${post.id}`}
-              passHref
-            >
-              
-                <BlogCard post={post} />
-              
-            </Link>
-          ))}
+          {postData && postData.length>0 ? (
+            postData.map((post) => (
+              <Link
+                key={post._id}
+                href={`/blog/${post._id}`}
+                passHref
+              >
+                
+                  <BlogCard post={post} />
+                
+              </Link>
+            ))
+          ) : (
+            <p> You do not have any post yet </p>
+          )}
 
           
         </div>
@@ -45,4 +67,3 @@ const Home = async () => {
       
   );
 }
-export default Home;
