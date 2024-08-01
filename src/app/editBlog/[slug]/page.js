@@ -107,7 +107,7 @@ const EditBlogPage = ({params}) => {
   // }, [formSubmitted, router]);
 
   return (
-    <div>
+    <div className="w-full h-full">
     <form onSubmit={handleSubmit} className="flex flex-col w-full h-fit">
       <div className="relative w-full h-48 sm:h-64 md:h-96 lg:h-72">
       {image ? (

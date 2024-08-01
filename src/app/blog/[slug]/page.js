@@ -44,7 +44,7 @@ const SingleBlogPage = ({params}) => {
   }, [slug]);
 
   return (
-        <div>
+        <div className="w-full h-full">
             <div className="flex flex-col w-full h-fit">
               <div className="relative w-full">
                 <div className="relative w-full h-44 sm:h-64 md:h-80">
@@ -70,13 +70,12 @@ const SingleBlogPage = ({params}) => {
               
               <div className="flex flex-col w-full h-full p-5 md:p-8">
                 <div className="">
-                      {/* <h2 className="text-3xl md:text-4xl font-semibold mb-2 md:mb-4">{post.title}</h2> */}
                       <h2 className="text-3xl md:text-4xl font-semibold mb-2 md:mb-4">{postData.title}</h2>
                       <div className="flex items-center text-base md:text-xl mb-2 md:mb-4">
                         <p className="font-semibold mr-2">Category : {postData.category}</p>
                       </div>
-                      <div className="flex h-full">
-                        <p className="font-semibold" >{postData.desc}</p>
+                      <div className="flex h-full ">
+                        <p className="font-semibold w-full break-words" >{postData.desc}</p>
                       </div>
                   </div>
                   
