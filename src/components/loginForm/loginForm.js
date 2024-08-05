@@ -3,15 +3,38 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
 
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+
+
     const router = useRouter()
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("test submit");
-        router.push("/createProfile")
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await signIn("credentials", {
+                username, password, redirect:false
+            })
+
+            if(res.error) {
+                setError("Invalid credentials")
+                return
+            }
+
+            router.replace("createProfile")
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        // console.log("test submit");
+        // router.push("/createProfile")
     }
 
   return (
@@ -27,6 +50,7 @@ const LoginForm = () => {
                         placeholder="Username"
                         name="username"
                         className="text-base p-2 border md:text-lg focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                        onChange={(e)=> setUsername(e.target.value)}
                     />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -36,9 +60,16 @@ const LoginForm = () => {
                         placeholder="Password"
                         name="password"
                         className="text-base p-2 border focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                        onChange={(e)=> setPassword(e.target.value)}
                     />    
                 </div>
             </div>
+
+            {error && (
+                <div className="flex justify-center text-red-500">
+                    {error}
+                </div>
+            )}
 
             <button 
                 type="submit" 

@@ -45,7 +45,7 @@ export default function Home() {
     : filteredPosts.filter((post) => post.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
-    <div className="flex min-h-screen h-full w-full">
+    <div className="flex min-h-screen h-full w-full mb-3">
         <div className="flex flex-col m-5 w-full">
           <div className="flex flex-row gap-3 justify-end">
             <SearchBlog searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>

@@ -41,6 +41,10 @@ const EditBlogPage = ({params}) => {
       const data = await res.json();
         console.log("edit post", data)
         setPostData(data.post)
+
+        setNewTitle(data.post.title);
+        setNewCategory(data.post.category);
+        setNewDesc(data.post.desc);
       
     } catch (error) {
       console.log(error);
@@ -77,6 +81,7 @@ const EditBlogPage = ({params}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
     try {
       const res = await fetch(`http://localhost:3000/api/blogs/${slug}`, {
         method: "PUT",
@@ -94,11 +99,14 @@ const EditBlogPage = ({params}) => {
       router.push(`/blog/${slug}`)
 
     } catch (error) {
-      
-    }
-    console.log("testSubmit");
-    setFormSubmitted(true);    
+      console.log(error);
+    }   
   }
+
+  const handleCancle = () => {
+    console.log("test cancle");
+    router.push(`/blog/${slug}`)
+}
 
   // useEffect(() => {
   //   if (formSubmitted) {
@@ -155,17 +163,17 @@ const EditBlogPage = ({params}) => {
           <div className="flex items-center text-base md:text-lg mb-2 md:mb-4">
             <select
               className="px-3.5 py-2 border-b focus:outline-none w-full h-12"
-              defaultValue={postData.category}
+              value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             >
               <option value="" disabled>
                 Select a category
               </option>
-              <option value="option1">General</option>
-              <option value="option2">Knowledge</option>
-              <option value="option3">News</option>
-              <option value="option4">Entertainment</option>
-              <option value="option5">Others</option>
+              <option value="General">General</option>
+              <option value="Knowledge">Knowledge</option>
+              <option value="News">News</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Others">Others</option>
             </select>
           </div>
 
@@ -173,7 +181,7 @@ const EditBlogPage = ({params}) => {
             <textarea
               type="text"
               placeholder={postData.desc}
-              minLength={20}
+              minLength={10}
               defaultValue={postData.desc}
               className="px-4 py-2 font-regular border-b focus:outline-none w-full h-36 min-h-80 lg:min-h-48 placeholder:text-zinc-400"
               onChange={(e)=>setNewDesc(e.target.value)}>
@@ -192,11 +200,22 @@ const EditBlogPage = ({params}) => {
         </div>
       </div>
 
-      <div className="flex justify-center px-5 pb-5">
+      {/* <div className="flex justify-center px-5 pb-5">
         <button
           type="submit" 
           className="bg-zinc-950 text-white text-sm md:text-xl lg:text-base font-medium py-2 w-full lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-800">Save</button>
-      </div>  
+      </div> */}
+      
+      <div className="flex flex-row px-5 pb-5 gap-5 justify-center">
+        <button
+          type="button"
+          onClick={handleCancle}
+          className="bg-white text-zinc-950 text-sm md:text-xl lg:text-xl font-medium py-2 w-full lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-100"
+        >Cancle</button>
+        <button
+            type="submit" 
+            className="bg-zinc-950 text-white text-sm md:text-xl lg:text-base font-medium py-2 w-full lg:w-52 md:py-3 border flex justify-center items-center self-center hover:shadow hover:bg-zinc-800">Save</button>
+      </div>    
         
       </form>
     {isPopupOpen && (

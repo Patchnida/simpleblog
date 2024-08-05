@@ -12,7 +12,7 @@ export async function GET(req, {params}) {
 export async function PUT(req, {params}) {
     const {id} = params;
     const { newTitle: title, 
-            newCatagory: category,
+            newCategory: category,
             newDesc: desc
     } = await req.json() //ดึงค่า newTitle มาแล้วเปลี่ยนเป็น title ใ้ห้ตรงตาม field ใน Database
 

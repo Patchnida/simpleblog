@@ -6,7 +6,7 @@ export const createUser = async (req, res) => {
     const user = new User({
       username: userData.username,
       email: userData.email,
-      password: userData.password, // Include password if provided
+      password: userData.password,
       img: userData.img,
       isAdmin: userData.isAdmin,
     });
