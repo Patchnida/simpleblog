@@ -32,9 +32,6 @@ const LoginForm = () => {
         } catch (error) {
             console.log(error)
         }
-
-        // console.log("test submit");
-        // router.push("/createProfile")
     }
 
   return (

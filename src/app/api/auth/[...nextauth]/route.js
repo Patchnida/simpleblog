@@ -15,7 +15,7 @@ const authOptions = {
             },
             async authorize(credentials, req) {
             
-                const { username, password } = credentials;
+                const { username, password } = credentials; // ดึงค่า username, password มา 
 
                 try {
                     await connectToDb()
