@@ -1,5 +1,3 @@
-
-
 import connectToDb from "@/lib/mongoDB";
 import { Post } from "@/models/post";
 import { NextResponse } from "next/server";
@@ -29,3 +27,4 @@ export async function DELETE(req) {
   await Post.findByIdAndDelete(id)
   return NextResponse.json({message:"Post delete"}, {status:200})
 }
+
