@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ProfileCard = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState({});
+
+  const router = useRouter()
 
   const getUser = async () => {
     if (!session) return;
@@ -38,10 +41,15 @@ const ProfileCard = () => {
     }
   }, [session]);
 
-  const handleLogout = () => {
-    console.log("Logout test");
-    localStorage.removeItem("token");
-    // Add logout logic
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: false });
+      router.push("/")
+    } catch (error) {
+      console.log("Error logging out:", error);
+    }
+    // localStorage.removeItem("token");
+    
   };
 
   return (
@@ -117,7 +125,9 @@ const ProfileCard = () => {
             </div>
           </div>
         </div>
-        <Link onClick={handleLogout} href="/" className="self-end text-sm md:text-base lg:text-base font-medium hover:font-semibold hover:text-red-500">Logout</Link>
+        <button className="self-end text-sm md:text-base lg:text-base font-medium hover:font-semibold hover:text-red-500" onClick={handleLogout}>
+                Logout
+        </button>
       </div>
     </div>
   );

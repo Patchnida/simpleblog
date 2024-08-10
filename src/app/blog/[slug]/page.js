@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { useSession } from "next-auth/react";
 
 const SingleBlogPage = ({params}) => {
-  
+  const { data: session } = useSession();
+
   const { slug } = params;
   console.log(slug)
   
@@ -54,6 +55,7 @@ const SingleBlogPage = ({params}) => {
                     style={{ objectFit: 'cover' }}
                     alt="Image description"
                   />
+                  {postData.writer === session?.user?.username && (
                   <div className="absolute top-0 right-0 w-5 h-5 md:w-8 md:h-8 m-2 shadow cursor-pointer">
                     <Link
                       href={`/editBlog/${slug}`}>
@@ -65,6 +67,7 @@ const SingleBlogPage = ({params}) => {
                       />
                     </Link>
                   </div>
+                  )}
                 </div>
               </div>
               
@@ -79,7 +82,18 @@ const SingleBlogPage = ({params}) => {
                       </div>
                   </div>
                   
-                  {/* <Writer userId={post.userId} /> */}
+                  <div className="flex items-center justify-end">
+                  
+                  <div className="relative w-8 h-8 border rounded-full overflow-hidden mr-3">
+                    <Image 
+                      src={postData.image || "/noavatar.png"}
+                      layout="fill"
+                      objectFit="cover"
+                      alt="Writer's picture"
+                    />
+                  </div>
+                  <p className="text-sm md:text-base font-medium">{postData.writer || "Writer"}</p>
+                </div>
               </div>  
                 
               </div>

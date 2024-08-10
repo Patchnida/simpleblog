@@ -4,8 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const CreateBlogForm = () => {
+  const { data: session } = useSession();
 
   const [title, setTitle] = useState("");
 
@@ -15,8 +17,38 @@ const CreateBlogForm = () => {
   const [category, setCategory] = useState("");
   const [desc, setDesc] = useState("");
 
+  const [error, setError] = useState("");
   const router = useRouter();
 
+  const getUser = async () => {
+    if (!session) return;
+
+    try {
+        const res = await fetch("/api/user", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`, // Optional based on how your session token is structured
+            },
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch user data");
+        }
+
+        const data = await res.json();
+        setUser(data.user);
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+  useEffect(() => {
+      if (session) {
+          getUser();
+      }
+  }, [session]);
+  
   useEffect(() => {
     if (image) {
       const imageUrl = URL.createObjectURL(image);
@@ -42,13 +74,16 @@ const CreateBlogForm = () => {
       return;
     }
 
+    const writer = session?.user?.username;
+
     try {
       const res = await fetch("http://localhost:3000/api/blogs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.accessToken}`,
         },
-        body: JSON.stringify({ title, category, desc }),
+        body: JSON.stringify({ title, category, desc, writer }),
       });
 
       if (res.ok) {
@@ -135,13 +170,13 @@ const CreateBlogForm = () => {
           <div className="flex items-center justify-end">
             <div className="relative w-8 h-8 border rounded-full overflow-hidden mr-3">
               <Image 
-                src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w" 
+                src={session?.user?.image || "/noavatar.png"}
                 layout="fill"
                 objectFit="cover"
                 alt="Writer's picture"
               />
             </div>
-            <p className="text-sm md:text-base font-medium">Writer</p>
+            <p className="text-sm md:text-base font-medium">{session?.user?.username || "Writer"}</p>
           </div>
         </div>
 

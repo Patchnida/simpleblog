@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { title, category, desc } = await request.json();
+    const { title, category, desc, writer } = await request.json();
     console.log(title, category, desc)
 
     await connectToDb()
-    await Post.create({title, category, desc});
+    await Post.create({title, category, desc, writer});
     return NextResponse.json({message: "Post created"}, {status:201});
   } catch (err) {
     res.status(500).send(err.message);

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const NavBar = () => {
   const { data: session, status } = useSession();
@@ -23,9 +24,15 @@ const NavBar = () => {
                 Login
               </Link>
             ):(
-              <button className="text-base font-medium" onClick={() => signOut()}>
-                Logout
-              </button>
+              <Link href="/profile" className="relative flex justify-center items-center border rounded-full overflow-hidden w-10 h-10">
+                <Image
+                  src={session.user.image || "/noavatar.png"}
+                  alt="User profile picture"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </Link>
             )}
             </div>
           </div>  

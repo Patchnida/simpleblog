@@ -12,7 +12,7 @@ export async function GET(request) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const user = await User.findById(token.sub); // Use token.sub to get the user ID
+    const user = await User.findById(token.sub);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

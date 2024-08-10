@@ -67,7 +67,7 @@ const CreateProfileForm = () => {
                     name,
                     surname,
                     phone,
-                    image, // If you're sending the image URL, else you'll need to handle file upload separately
+                    image,
                 }),
             });
 
@@ -75,7 +75,7 @@ const CreateProfileForm = () => {
                 throw new Error("Failed to create profile");
             }
 
-            router.push("/profile/user");
+            router.push("/profile");
         } catch (error) {
             setError(error.message);
             console.log(error);

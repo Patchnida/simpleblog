@@ -16,6 +16,9 @@ const postSchema = new Schema (
       img: {
         type: String,
       },
+      writer: {
+        type: String,
+      },
     },
     
     { timestamps: true } // สร้างวันเวลาที่มีการเพิ่มข้อมูลในโดยอัตโนมัติ

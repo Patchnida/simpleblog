@@ -121,7 +121,7 @@ const EditBlogPage = ({params}) => {
       {image ? (
         <Image 
           src={image} 
-          alt="Menu"
+          alt="post image"
           layout="fill" 
           className="w-full h-full object-cover rounded-md" 
         />
