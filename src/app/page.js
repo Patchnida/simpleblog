@@ -5,6 +5,8 @@ import SearchBlog from "@/components/searchBlog/searchBlog";
 import SearchCategory from "@/components/searchCategory/searchCategory";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 
@@ -12,6 +14,9 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const getPosts = async () => {
     try {
@@ -44,18 +49,25 @@ export default function Home() {
     ? filteredPosts
     : filteredPosts.filter((post) => post.category.toLowerCase() === selectedCategory.toLowerCase());
 
+  const handleCreateBlog = () => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      router.push("/createBlog");
+    }
+  };
+
   return (
     <div className="flex min-h-screen h-full w-full mb-3">
         <div className="flex flex-col m-5 w-full">
           <div className="flex flex-row gap-3 justify-end">
             <SearchBlog searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <SearchCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-            <Link href={"/createBlog"}>
               <button
+                onClick={handleCreateBlog}
                 className="bg-zinc-950 p-0 text-white  leading-none border rounded-3xl w-10 h-10 min-w-10 min-h-10 flex justify-center items-center hover:shadow hover:bg-zinc-800">
                 <p className="flex font-bold text-center self-center">+</p>
               </button>
-            </Link>
           </div>
 
           <div className="h-full">
