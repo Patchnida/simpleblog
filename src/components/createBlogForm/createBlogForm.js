@@ -85,7 +85,7 @@ const CreateBlogForm = () => {
       if (img) {
         setUploading(true);
         try {
-          const imgRef = ref(storage, `images/${img.name}`);
+          const imgRef = ref(storage, `blogs/${img.name}`);
           await uploadBytes(imgRef, img);
           imgUrl = await getDownloadURL(imgRef);
         } catch (error) {

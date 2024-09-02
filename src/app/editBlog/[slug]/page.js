@@ -91,7 +91,7 @@ const EditBlogPage = ({params}) => {
 
       if (newImg) {
         setUploading(true);
-        const imgRef = ref(storage, `images/${newImg.name}`);
+        const imgRef = ref(storage, `blogs/${newImg.name}`);
         await uploadBytes(imgRef, newImg);
         imgUrl = await getDownloadURL(imgRef);
         
