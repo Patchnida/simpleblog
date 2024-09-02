@@ -1,62 +1,94 @@
 "use client"
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "@/app/firebaseConfig";
 
 const CreateProfileForm = () => {
     const { data: session } = useSession();
+    const router = useRouter();
+
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [phone, setPhone] = useState("");
+    const [img, setImg] = useState(null);
+    const [imgPreview, setImgPreview] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const [error, setError] = useState("");
-    const [image, setImage] = useState(null);
-    const router = useRouter();
-  
+
     const getUser = async () => {
         if (!session) return;
-  
+
         try {
             const res = await fetch("/api/user", {
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer ${session.accessToken}`, // Optional based on how your session token is structured
+                    Authorization: `Bearer ${session.accessToken}`, // Adjust if your session token is different
                 },
                 cache: "no-store",
             });
-  
+
             if (!res.ok) {
                 throw new Error("Failed to fetch user data");
             }
-  
+
             const data = await res.json();
             setUser(data.user);
         } catch (error) {
             console.log(error);
         }
     };
-  
+
     useEffect(() => {
         if (session) {
             getUser();
         }
     }, [session]);
 
-    const handleImageChange = (e) => {
+    useEffect(() => {
+        if (img) {
+            const imgUrl = URL.createObjectURL(img);
+            setImgPreview(imgUrl);
+
+            return () => URL.revokeObjectURL(imgUrl);
+        }
+    }, [img]);
+
+    const handleImgChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setImage(imageUrl);
+            setImg(file);
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (uploading) {
+            setError('Image is still uploading. Please wait.');
+            return;
+        }
+
         try {
+            let imgUrl = '';
+            if (img) {
+                setUploading(true);
+                try {
+                    const imgRef = ref(storage, `profiles/${img.name}`);
+                    await uploadBytes(imgRef, img);
+                    imgUrl = await getDownloadURL(imgRef);
+                } catch (error) {
+                    setError('Failed to upload image');
+                    return;
+                } finally {
+                    setUploading(false);
+                }
+            }
+
             const res = await fetch("/api/user", {
                 method: "POST",
                 headers: {
@@ -67,7 +99,7 @@ const CreateProfileForm = () => {
                     name,
                     surname,
                     phone,
-                    image,
+                    img: imgUrl,
                 }),
             });
 
@@ -91,11 +123,11 @@ const CreateProfileForm = () => {
                 <h1 className="text-2xl md:text-5xl font-bold text-center">
                     Create Profile
                 </h1>
-                
+
                 <div className="flex flex-col lg:flex-row justify-center items-center gap-4 md:gap-8 lg:gap-10">
                     <div className="relative flex justify-center items-center border rounded-full overflow-hidden w-48 h-48 md:w-64 md:h-64 lg:w-64 lg:h-64">
                         <Image
-                            src={image || "/noavatar.png"}
+                            src={imgPreview || "/noavatar.png"}
                             fill
                             style={{ objectFit: "cover" }}
                             alt="Profile picture"
@@ -107,13 +139,13 @@ const CreateProfileForm = () => {
                                     type="file"
                                     name="image"
                                     className="hidden"
-                                    onChange={handleImageChange}
+                                    onChange={handleImgChange}
                                     accept="image/*"
                                 />
                             </label>
                         </div>
                     </div>
-                    
+
                     <div className="flex flex-col justify-start self-center w-full lg:w-7/12 gap-2 md:gap-4">
                         <div className="flex flex-row items-center justify-center w-full">
                             <label className="text-sm md:text-xl lg:text-base font-medium w-20 md:w-28 text-zinc-400 mr-4 md:mr-24 lg:mr-16">

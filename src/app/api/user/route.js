@@ -60,7 +60,9 @@ export async function PUT(req) {
             newName: name,
             newSurname: surname,
             newEmail: email,
-            newPhone: phone } = await req.json();
+            newPhone: phone,
+            newImg: img 
+          } = await req.json()
     
     await connectToDb();
 

@@ -60,7 +60,7 @@ const ProfileCard = () => {
           <div className="flex flex-col justify-center items-center gap-4 lg:flex-row lg:gap-20 xl:gap-24 md:mx-8 lg:mx-2 px-1">
             <div className="relative border rounded-full overflow-hidden w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72">
               <Image
-                src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w"
+                src={user.img || "/noavatar.png"}
                 fill
                 style={{ objectFit: 'cover' }}
                 alt="Profile picture"
