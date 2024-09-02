@@ -13,12 +13,13 @@ export async function PUT(req, {params}) {
     const {id} = params;
     const { newTitle: title, 
             newCategory: category,
-            newDesc: desc
+            newDesc: desc,
+            newImg:img
     } = await req.json() //ดึงค่า newTitle มาแล้วเปลี่ยนเป็น title ใ้ห้ตรงตาม field ใน Database
 
     await connectToDb()
 
-    await Post.findOneAndUpdate({ _id: id }, {title, category, desc})
+    await Post.findOneAndUpdate({ _id: id }, {title, category, desc, img})
     return NextResponse.json({message: "Post updated"}, {status: 200})
     
 }

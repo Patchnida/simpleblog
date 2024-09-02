@@ -50,7 +50,7 @@ const SingleBlogPage = ({params}) => {
               <div className="relative w-full">
                 <div className="relative w-full h-44 sm:h-64 md:h-80">
                   <Image 
-                    src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w" 
+                    src={postData.img}
                     layout="fill"
                     style={{ objectFit: 'cover' }}
                     alt="Image description"

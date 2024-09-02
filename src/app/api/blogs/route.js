@@ -4,14 +4,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { title, category, desc, writer } = await request.json();
-    console.log(title, category, desc)
+    const { title, category, desc, writer, img } = await request.json();
+    console.log("Received data:", { title, category, desc, writer, img });
 
-    await connectToDb()
-    await Post.create({title, category, desc, writer});
-    return NextResponse.json({message: "Post created"}, {status:201});
+    await connectToDb();
+    await Post.create({ title, category, desc, writer, img });
+    return NextResponse.json({ message: "Post created" }, { status: 201 });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error("Error creating post:", err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 

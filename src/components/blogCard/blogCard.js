@@ -6,7 +6,7 @@ const BlogCard = ({post}) => {
       <div className="border rounded-lg shadow-md w-full">
         <div style={{ position: 'relative', width: '100%', height: '300px' }}>
             <Image 
-              src="https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/424f0a73-624b-45e6-ae64-5ee6bc67f5dc/D23_WoL_PubStill.pub16.jpg?format=1500w"
+              src={post.img}
               fill
               style={{ objectFit: 'cover' }}
               alt="Image description"
