@@ -20,7 +20,7 @@ const postSchema = new Schema (
         type: String,
       },
       writerImg: {
-        type: String, // Add a field for the writer's profile picture
+        type: String,
       },
     },
     

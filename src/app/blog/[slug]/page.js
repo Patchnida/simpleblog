@@ -86,7 +86,7 @@ const SingleBlogPage = ({params}) => {
                   
                   <div className="relative w-8 h-8 border rounded-full overflow-hidden mr-3">
                     <Image 
-                      src={postData.image || "/noavatar.png"}
+                      src={postData.writerImg || "/noavatar.png"}
                       layout="fill"
                       objectFit="cover"
                       alt="Writer's picture"
