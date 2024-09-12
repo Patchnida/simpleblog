@@ -73,7 +73,7 @@ export async function PUT(req) {
 
     const user = await User.findByIdAndUpdate(
       token.sub,
-      { username, name, surname, email, phone },
+      { username, name, surname, email, phone, img },
       { new: true }
     );
 

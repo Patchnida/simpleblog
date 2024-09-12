@@ -9,16 +9,16 @@ export async function GET(req, { params }) {
   return NextResponse.json({user},{status:200})
 }
 
-export async function PUT(req, { params }) {
-  const { id } = params;
-  const { username, name, surname, email, phone } = await req.json();
-  await connectToDb();
-  const updatedUser = await User.findByIdAndUpdate(id, { username, name, surname, email, phone }, { new: true });
-  if (!updatedUser) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
-  return NextResponse.json({ message: "User updated", user: updatedUser });
-}
+// export async function PUT(req, { params }) {
+//   const { id } = params;
+//   const { username, name, surname, email, phone } = await req.json();
+//   await connectToDb();
+//   const updatedUser = await User.findByIdAndUpdate(id, { username, name, surname, email, phone }, { new: true });
+//   if (!updatedUser) {
+//     return NextResponse.json({ error: "User not found" }, { status: 404 });
+//   }
+//   return NextResponse.json({ message: "User updated", user: updatedUser });
+// }
 
 export async function DELETE(req, { params }) {
   const { id } = params;

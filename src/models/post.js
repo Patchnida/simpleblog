@@ -19,6 +19,9 @@ const postSchema = new Schema (
       writer: {
         type: String,
       },
+      writerImg: {
+        type: String, // Add a field for the writer's profile picture
+      },
     },
     
     { timestamps: true } // สร้างวันเวลาที่มีการเพิ่มข้อมูลในโดยอัตโนมัติ
